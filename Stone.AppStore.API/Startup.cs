@@ -22,13 +22,7 @@ namespace Stone.AppStore.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInfrastructureAPI(Configuration);
-
-            services.AddInfrastructureJWT(Configuration);
-
             services.AddControllers();
-
-            services.AddInfrastructureSwagger();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,7 +46,7 @@ namespace Stone.AppStore.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
