@@ -22,19 +22,6 @@ namespace Stone.AppStore.Infraestructure.Context
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(AppStoreDbContext).Assembly);
-
-            builder.Entity<User>(opts =>
-            {
-                opts.HasKey(u => u.Id);
-            });
-
-            builder.Entity<Address>(opts =>
-            {
-                opts.HasOne(a => a.User)
-                    .WithOne();
-            });
-
-            builder.
         }
     }
 }

@@ -12,9 +12,6 @@ namespace Stone.AppStore.Infraestructure.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.HasKey(a => a.Id);
-
-            builder.HasOne(a => a.User)
-                .WithOne();
         }
     }
 }
