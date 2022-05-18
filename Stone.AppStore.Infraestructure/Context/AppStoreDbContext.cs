@@ -14,16 +14,27 @@ namespace Stone.AppStore.Infraestructure.Context
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<CreditCard> CreditCards { get; set; }
-
         public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<App> Apps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(typeof(AppStoreDbContext).Assembly);
+
             builder.Entity<User>(opts =>
             {
                 opts.HasKey(u => u.Id);
             });
+
+            builder.Entity<Address>(opts =>
+            {
+                opts.HasOne(a => a.User)
+                    .WithOne();
+            });
+
+            builder.
         }
     }
 }

@@ -20,9 +20,6 @@ namespace Stone.AppStore.Domain.Entities
         [Required]
         public string Gender { get; set; }
 
-        public int MyProperty { get; set; }
-
-        [Required]
         public Address Address { get; set; }
     }
 }

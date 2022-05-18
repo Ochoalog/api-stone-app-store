@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Stone.AppStore.Domain.Entities
 {
@@ -8,5 +9,14 @@ namespace Stone.AppStore.Domain.Entities
         public double Value { get; set; }
 
         public string Creator { get; set; }
+
+        public App(Guid id,string name, bool active, double value, string creator)
+        {
+            Id = id;
+            Name = name;
+            Active = active;
+            Value = value;
+            Creator = creator;
+        }
     }
 }
