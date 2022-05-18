@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Stone.AppStore.Domain.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Stone.AppStore.Domain.Entities
+namespace Stone.AppStore.Infraestructure.Identity
 {
-    public class User : Base
+    public class User : IdentityUser
     {
-        [Required]
-        public string Email { get; set; }
-
-        [Required]
         public string Password { get; set; }
-
         [Required]
         public string Cpf { get; set; }
 
@@ -19,6 +16,8 @@ namespace Stone.AppStore.Domain.Entities
 
         [Required]
         public string Gender { get; set; }
+
+        public bool Active { get; set; }
 
         public Address Address { get; set; }
     }

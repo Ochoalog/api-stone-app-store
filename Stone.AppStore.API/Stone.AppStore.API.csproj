@@ -8,10 +8,11 @@
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 	<PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Stone.AppStore.Application\Stone.AppStore.Application.csproj" />
+    <ProjectReference Include="..\Stone.AppStore.IoC\Stone.AppStore.IoC.csproj" />
   </ItemGroup>
 
 </Project>

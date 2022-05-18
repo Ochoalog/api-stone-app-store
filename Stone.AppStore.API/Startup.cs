@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Stone.AppStore.IoC;
 
 namespace Stone.AppStore.API
 {
@@ -22,6 +18,10 @@ namespace Stone.AppStore.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddInfrastructure(Configuration);
+            //ativar autenticacao e validar o token
+            services.AddInfrastructureJWT(Configuration);
+            services.AddInfrastructureSwagger();
             services.AddControllers();
         }
 
@@ -30,6 +30,8 @@ namespace Stone.AppStore.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stone.AppStore.API v1"));
             }
             else
             {
@@ -38,10 +40,8 @@ namespace Stone.AppStore.API
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
