@@ -25,13 +25,13 @@ namespace Stone.AppStore.Infraestructure.Repositories
             return app;
         }
 
-        public async Task<IEnumerable<App>> GetApps()
+        public async Task<IEnumerable<App>> GetAppsAsync()
         {
             return await _dbContext.Apps.Where(app => 
                 app.Active).OrderBy(a => a.Name).ToListAsync();
         }
 
-        public async Task<App> GetById(Guid appId)
+        public async Task<App> GetByIdAsync(Guid appId)
         {
             return await _dbContext.Apps.FirstOrDefaultAsync(app => 
                 app.Id == appId && app.Active);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

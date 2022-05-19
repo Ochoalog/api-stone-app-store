@@ -7,7 +7,9 @@ namespace Stone.AppStore.Domain.Entities
     {
         public Guid Id { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
+
+        public User User { get; set; }
 
         [Required]
         public string Cep { get; set; }

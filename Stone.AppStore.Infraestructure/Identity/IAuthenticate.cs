@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Stone.AppStore.Domain.Entities;
 using System.Threading.Tasks;
 
 namespace Stone.AppStore.Infraestructure.Identity

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Stone.AppStore.Domain.Entities;
 using System.Threading.Tasks;
 
 namespace Stone.AppStore.Infraestructure.Identity

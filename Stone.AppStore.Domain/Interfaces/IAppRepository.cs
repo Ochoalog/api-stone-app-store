@@ -7,9 +7,9 @@ namespace Stone.AppStore.Domain.Interfaces
 {
     public interface IAppRepository
     {
-        Task<IEnumerable<App>> GetApps();
+        Task<IEnumerable<App>> GetAppsAsync();
 
-        Task<App> GetById(Guid appId);
+        Task<App> GetByIdAsync(Guid appId);
 
         Task<App> CreateAsync(App app);
     }

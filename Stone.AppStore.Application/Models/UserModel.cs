@@ -7,8 +7,6 @@ namespace Stone.AppStore.Application.Models
 {
     public class UserModel
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Email is required")]

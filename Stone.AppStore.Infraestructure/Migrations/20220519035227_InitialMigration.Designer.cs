@@ -10,7 +10,7 @@ using Stone.AppStore.Infraestructure.Context;
 namespace Stone.AppStore.Infraestructure.Migrations
 {
     [DbContext(typeof(AppStoreDbContext))]
-    [Migration("20220518222609_InitialMigration")]
+    [Migration("20220519035227_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,10 +180,14 @@ namespace Stone.AppStore.Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Addresses");
                 });
@@ -213,7 +217,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f998d8ec-3308-4ce5-89a6-712e52395425"),
+                            Id = new Guid("9b652308-d41f-4fc5-9f85-57cde8df8bf2"),
                             Active = true,
                             Creator = "Meta",
                             Name = "Facebook",
@@ -221,7 +225,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b13382b5-563d-4fa5-b307-8f54c45882c1"),
+                            Id = new Guid("37b5494f-d10e-4692-b153-7e23aa8dfda7"),
                             Active = true,
                             Creator = "Meta",
                             Name = "Instagram",
@@ -229,7 +233,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a1e91cf9-1f9c-4e67-92e9-5cacfd7187b6"),
+                            Id = new Guid("28557431-0815-4e20-839e-89f6495242d0"),
                             Active = true,
                             Creator = "Stone",
                             Name = "Stone",
@@ -237,7 +241,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Stone.AppStore.Infraestructure.Identity.User", b =>
+            modelBuilder.Entity("Stone.AppStore.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -247,9 +251,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
-
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -311,8 +312,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -335,7 +334,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Stone.AppStore.Infraestructure.Identity.User", null)
+                    b.HasOne("Stone.AppStore.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -344,7 +343,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Stone.AppStore.Infraestructure.Identity.User", null)
+                    b.HasOne("Stone.AppStore.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -359,7 +358,7 @@ namespace Stone.AppStore.Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stone.AppStore.Infraestructure.Identity.User", null)
+                    b.HasOne("Stone.AppStore.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -368,19 +367,24 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Stone.AppStore.Infraestructure.Identity.User", null)
+                    b.HasOne("Stone.AppStore.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Stone.AppStore.Infraestructure.Identity.User", b =>
+            modelBuilder.Entity("Stone.AppStore.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("Stone.AppStore.Domain.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
+                    b.HasOne("Stone.AppStore.Domain.Entities.User", "User")
+                        .WithOne("Address")
+                        .HasForeignKey("Stone.AppStore.Domain.Entities.Address", "UserId");
 
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Stone.AppStore.Domain.Entities.User", b =>
+                {
                     b.Navigation("Address");
                 });
 #pragma warning restore 612, 618

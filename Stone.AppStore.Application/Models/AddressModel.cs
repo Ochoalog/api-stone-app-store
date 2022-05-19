@@ -6,8 +6,6 @@ namespace Stone.AppStore.Application.Models
 {
     public class AddressModel
     {
-        public Guid Id { get; set; }
-
         public string Cep { get; set; }
 
         public string Uf { get; set; }

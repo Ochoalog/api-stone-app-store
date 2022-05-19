@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stone.AppStore.Application.Mappings;
+using Stone.AppStore.Domain.Entities;
 using Stone.AppStore.Infraestructure.Context;
 using Stone.AppStore.Infraestructure.Identity;
 using System;
@@ -25,7 +27,7 @@ namespace Stone.AppStore.IoC
             services.AddScoped<IAuthenticate, AuthenticateService>();
             //services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
-            //services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+            services.AddAutoMapper(typeof(DomainToModelMappingProfile));
 
             var myhandlers = AppDomain.CurrentDomain.Load("Stone.AppStore.Application");
             services.AddMediatR(myhandlers);

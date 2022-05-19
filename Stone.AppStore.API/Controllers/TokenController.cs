@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -22,45 +23,25 @@ namespace Stone.AppStore.API.Controllers
 
         public TokenController(IAuthenticate authentication, IConfiguration configuration)
         {
-            _authentication = authentication ??
-                throw new ArgumentException(nameof(authentication));
-            _configuration = configuration;
+            _authentication = authentication ?? throw new ArgumentNullException(nameof(authentication));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromBody] UserModel userInfo)
-        {
-            User user = new User
-            {
-                Email = userInfo.Email,
-                Active = true,
-                Cpf = userInfo.Cpf,
-                BirthDate = userInfo.BirthDate,
-                Gender = userInfo.Gender,
-                UserName = userInfo.Email,
-                Password = userInfo.Password,
-                Address = new Address
-                {
-                    Avenue = userInfo.Address.Avenue,
-                    Cep = userInfo.Address.Cep,
-                    City = userInfo.Address.City,
-                    Complement = userInfo.Address.Complement,
-                    Number = userInfo.Address.Number,
-                    Uf = userInfo.Address.Uf,
-                }
-            };
-
-            var result = await _authentication.RegisterUser(user);
+        {          
+            var result = await _authentication.RegisterUser(MapUser(userInfo));
             if (result)
             {
                 return Ok($"User {userInfo.Email} was create successfully.");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, "Invalid user.");
                 return BadRequest(ModelState);
             }
         }
+
         [AllowAnonymous]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] string email, string password)
@@ -107,6 +88,31 @@ namespace Stone.AppStore.API.Controllers
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = expiration
             };
+        }
+
+        private User MapUser(UserModel userInfo)
+        {
+            User user = new User
+            {
+                Email = userInfo.Email,
+                Active = true,
+                Cpf = userInfo.Cpf,
+                BirthDate = userInfo.BirthDate,
+                Gender = userInfo.Gender,
+                UserName = userInfo.Email,
+                Password = userInfo.Password,
+                Address = new Address
+                {
+                    Avenue = userInfo.Address.Avenue,
+                    Cep = userInfo.Address.Cep,
+                    City = userInfo.Address.City,
+                    Complement = userInfo.Address.Complement,
+                    Number = userInfo.Address.Number,
+                    Uf = userInfo.Address.Uf,
+                }
+            };
+
+            return user;
         }
     }
 }

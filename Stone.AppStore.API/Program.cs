@@ -14,6 +14,10 @@ namespace Stone.AppStore.API
 
         public static void Main(string[] args)
         {
+            var configuration = GetConfiguration();
+
+            Log.Logger = CreateSerilogLogger(configuration);
+
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -23,6 +27,25 @@ namespace Stone.AppStore.API
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static IConfiguration GetConfiguration()
+        {
+            var appSettings = "appsettings.json";
+
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (!string.IsNullOrWhiteSpace(environment))
+            {
+                appSettings = string.Format("appsettings.{0}.json", environment);
+            }
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile(appSettings, optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            return builder.Build();
+        }
 
         private static ILogger CreateSerilogLogger(IConfiguration configuration) => new LoggerConfiguration()
                 .MinimumLevel.Verbose()

@@ -8,24 +8,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Uf = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Avenue = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    Complement = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Apps",
                 columns: table => new
                 {
@@ -64,7 +46,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -83,12 +64,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,6 +85,30 @@ namespace Stone.AppStore.Infraestructure.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Uf = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avenue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Complement = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,17 +199,24 @@ namespace Stone.AppStore.Infraestructure.Migrations
             migrationBuilder.InsertData(
                 table: "Apps",
                 columns: new[] { "Id", "Active", "Creator", "Name", "Value" },
-                values: new object[] { new Guid("f998d8ec-3308-4ce5-89a6-712e52395425"), true, "Meta", "Facebook", 10.5 });
+                values: new object[] { new Guid("9b652308-d41f-4fc5-9f85-57cde8df8bf2"), true, "Meta", "Facebook", 10.5 });
 
             migrationBuilder.InsertData(
                 table: "Apps",
                 columns: new[] { "Id", "Active", "Creator", "Name", "Value" },
-                values: new object[] { new Guid("b13382b5-563d-4fa5-b307-8f54c45882c1"), true, "Meta", "Instagram", 1.5 });
+                values: new object[] { new Guid("37b5494f-d10e-4692-b153-7e23aa8dfda7"), true, "Meta", "Instagram", 1.5 });
 
             migrationBuilder.InsertData(
                 table: "Apps",
                 columns: new[] { "Id", "Active", "Creator", "Name", "Value" },
-                values: new object[] { new Guid("a1e91cf9-1f9c-4e67-92e9-5cacfd7187b6"), true, "Stone", "Stone", 100.0 });
+                values: new object[] { new Guid("28557431-0815-4e20-839e-89f6495242d0"), true, "Stone", "Stone", 100.0 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_UserId",
+                table: "Addresses",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -245,11 +251,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_AddressId",
-                table: "AspNetUsers",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -259,6 +260,9 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Addresses");
+
             migrationBuilder.DropTable(
                 name: "Apps");
 
@@ -282,9 +286,6 @@ namespace Stone.AppStore.Infraestructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Addresses");
         }
     }
 }

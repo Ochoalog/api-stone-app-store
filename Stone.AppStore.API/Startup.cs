@@ -19,7 +19,6 @@ namespace Stone.AppStore.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
-            //ativar autenticacao e validar o token
             services.AddInfrastructureJWT(Configuration);
             services.AddInfrastructureSwagger();
             services.AddControllers();

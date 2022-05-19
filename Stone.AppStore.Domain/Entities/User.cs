@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Stone.AppStore.Domain.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Stone.AppStore.Infraestructure.Identity
+namespace Stone.AppStore.Domain.Entities
 {
     public class User : IdentityUser
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Stone.AppStore.Domain.Entities;
-using Stone.AppStore.Infraestructure.Identity;
 
 namespace Stone.AppStore.Infraestructure.Context
 {
