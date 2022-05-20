@@ -30,7 +30,7 @@ namespace Stone.AppStore.API.Controllers
             return Ok(apps);
         }
 
-        [HttpGet("{id:int}", Name = "GetApp")]
+        [HttpGet("{id:guid}", Name = "GetApp")]
         public async Task<ActionResult<AppModel>> Get(Guid id)
         {
             var app = await _appService.GetById(id);

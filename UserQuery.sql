@@ -1,0 +1,6 @@
+DECLARE @USER_ID AS VARCHAR(50) = '4f966271-9076-4a3e-95fe-0d7fd7d65dbb'
+
+
+SELECT * FROM AspNetUsers WHERE Id = @USER_ID
+
+SELECT * FROM Addresses WHERE [UserId] = @USER_ID

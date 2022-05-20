@@ -6,9 +6,9 @@ namespace Stone.AppStore.Domain.Entities
     public class App : Base
     {
         [Required]
-        public double Value { get; set; }
+        public double Value { get; private set; }
 
-        public string Creator { get; set; }
+        public string Creator { get; private set; }
 
         public App(Guid id,string name, bool active, double value, string creator)
         {

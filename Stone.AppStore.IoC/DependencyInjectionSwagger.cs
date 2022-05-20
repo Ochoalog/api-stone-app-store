@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace Stone.AppStore.IoC
 {
@@ -9,7 +10,17 @@ namespace Stone.AppStore.IoC
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Stone.AppStore.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Stone App Store Api",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Vitor Ochôa",
+                        Email = "vitorochoa12@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/vitor-ochoa00010/")
+                    }
+                });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {

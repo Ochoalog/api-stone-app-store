@@ -14,14 +14,16 @@ namespace Stone.AppStore.Application.Services
         private readonly IAppRepository _appRepository;
         private readonly IMapper _mapper;
 
-        public AppService(IAppRepository appRepository)
+        public AppService(IAppRepository appRepository, IMapper mapper)
         {
             _appRepository = appRepository ?? throw new ArgumentNullException(nameof(appRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IEnumerable<AppModel>> GetApps()
         {
             var appsEntity = await _appRepository.GetAppsAsync();
+
             return _mapper.Map<IEnumerable<AppModel>>(appsEntity);
         }
 

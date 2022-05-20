@@ -3,10 +3,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stone.AppStore.Application.IntegrationEvents.Sender;
+using Stone.AppStore.Application.Interfaces;
 using Stone.AppStore.Application.Mappings;
+using Stone.AppStore.Application.Services;
 using Stone.AppStore.Domain.Entities;
+using Stone.AppStore.Domain.Interfaces;
 using Stone.AppStore.Infraestructure.Context;
 using Stone.AppStore.Infraestructure.Identity;
+using Stone.AppStore.Infraestructure.Repositories;
 using System;
 
 namespace Stone.AppStore.IoC
@@ -24,8 +29,12 @@ namespace Stone.AppStore.IoC
                 .AddEntityFrameworkStores<AppStoreDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IAppRepository, AppRepository>();
+            services.AddScoped<IAppService, AppService>();
             services.AddScoped<IAuthenticate, AuthenticateService>();
-            //services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
+            services.AddSingleton<IPaymentSender, PaymentSender>();
+
 
             services.AddAutoMapper(typeof(DomainToModelMappingProfile));
 

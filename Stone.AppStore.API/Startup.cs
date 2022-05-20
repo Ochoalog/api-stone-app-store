@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stone.AppStore.Application.IntegrationEvents.Options;
 using Stone.AppStore.IoC;
 
 namespace Stone.AppStore.API
@@ -18,6 +19,9 @@ namespace Stone.AppStore.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var serviceClientSettingsConfig = Configuration.GetSection("RabbitMq");
+            services.Configure<RabbitMqConfiguration>(serviceClientSettingsConfig);
+
             services.AddInfrastructure(Configuration);
             services.AddInfrastructureJWT(Configuration);
             services.AddInfrastructureSwagger();

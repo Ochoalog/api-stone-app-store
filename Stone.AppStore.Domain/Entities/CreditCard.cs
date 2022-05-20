@@ -6,13 +6,14 @@ namespace Stone.AppStore.Domain.Entities
     public class CreditCard : Base
     {
         [Required]
+        [CreditCard]
         public string Number { get; set; }
 
         [Required]
         public DateTime ValidateTime { get; set; }
 
         [Required]
-        public string Code { get; set; }
+        public string CVV { get; set; }
 
         [Required]
         public string Company { get; set; }

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Stone.AppStore.Application.Models;
 using Stone.AppStore.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Stone.AppStore.Application.Mappings
 {
@@ -11,7 +8,7 @@ namespace Stone.AppStore.Application.Mappings
     {
         public DomainToModelMappingProfile()
         {
-            CreateMap<AppModel, App>().ReverseMap();
+            CreateMap<App, AppModel>().ReverseMap();
         }
     }
 }
