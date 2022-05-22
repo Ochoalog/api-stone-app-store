@@ -7,6 +7,7 @@ using Stone.AppStore.Application.Models;
 using Stone.AppStore.Domain.Entities;
 using Stone.AppStore.Infraestructure.Identity;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -31,13 +32,13 @@ namespace Stone.AppStore.API.Controllers
         public async Task<ActionResult> CreateUser([FromBody] UserModel userInfo)
         {          
             var result = await _authentication.RegisterUser(MapUser(userInfo));
-            if (result)
+            if (result.Succeeded)
             {
                 return Ok($"User {userInfo.Email} was create successfully.");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid user.");
+                ModelState.AddModelError("Invalid user.", GetMessageErrors(result.Errors));
                 return BadRequest(ModelState);
             }
         }
@@ -113,6 +114,17 @@ namespace Stone.AppStore.API.Controllers
             };
 
             return user;
+        }
+
+        private string GetMessageErrors(IEnumerable<Microsoft.AspNetCore.Identity.IdentityError> errors)
+        {
+            StringBuilder messageError = new StringBuilder();
+
+            foreach (var message in errors)
+            {
+                messageError.AppendLine(message.Description);
+            }
+            return messageError.ToString();
         }
     }
 }

@@ -21,13 +21,11 @@ namespace Stone.AppStore.Application.Commands.PaymentCommands
         {
             try
             {
-
-
                 return _paymentSender.SendPayment(request.Payload);               
             }
             catch (Exception ex)
             {
-                Log.Logger.Fatal("Error: " + ex.ToString());
+                Log.Logger.Fatal(ex.ToString());
                 throw ex;
             }
         }

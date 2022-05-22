@@ -18,6 +18,8 @@ namespace Stone.AppStore.API
 
             Log.Logger = CreateSerilogLogger(configuration);
 
+            Log.Logger.Information("--------------------- Start application");
+
             CreateHostBuilder(args).Build().Run();
         }
 

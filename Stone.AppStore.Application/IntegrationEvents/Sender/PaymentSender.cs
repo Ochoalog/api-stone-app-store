@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using Serilog;
 using Stone.AppStore.Application.IntegrationEvents.Options;
+using Stone.AppStore.Application.Models;
 using Stone.AppStore.Domain.Entities;
 using System;
 using System.Text;
@@ -27,7 +28,7 @@ namespace Stone.AppStore.Application.IntegrationEvents.Sender
             CreateConnection();
         }
 
-        public bool SendPayment(Payment payment)
+        public bool SendPayment(PaymentModel payment)
         {
             try
             {
@@ -55,7 +56,7 @@ namespace Stone.AppStore.Application.IntegrationEvents.Sender
             }
             catch (Exception ex)
             {
-                Log.Logger.Fatal("ERROR: " + ex.ToString());
+                Log.Logger.Fatal(ex.ToString());
                 throw ex;
             }
             
@@ -76,6 +77,7 @@ namespace Stone.AppStore.Application.IntegrationEvents.Sender
             catch (Exception ex)
             {
                 Log.Logger.Error( $"Could not create connection: {ex}");
+                throw ex;
             }
         }
 

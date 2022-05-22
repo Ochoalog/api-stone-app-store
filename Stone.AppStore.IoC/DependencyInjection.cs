@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stone.AppStore.Application.IntegrationEvents.Options;
 using Stone.AppStore.Application.IntegrationEvents.Sender;
 using Stone.AppStore.Application.Interfaces;
 using Stone.AppStore.Application.Mappings;
@@ -34,7 +35,6 @@ namespace Stone.AppStore.IoC
             services.AddScoped<IAuthenticate, AuthenticateService>();
 
             services.AddSingleton<IPaymentSender, PaymentSender>();
-
 
             services.AddAutoMapper(typeof(DomainToModelMappingProfile));
 

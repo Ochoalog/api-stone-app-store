@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Stone.AppStore.Application.Models;
 using Stone.AppStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,6 @@ namespace Stone.AppStore.Application.Commands.PaymentCommands
 {
     public class PaymentCommand : IRequest<bool>
     {
-        public Payment Payload { get; set; }
+        public PaymentModel Payload { get; set; }
     }
 }

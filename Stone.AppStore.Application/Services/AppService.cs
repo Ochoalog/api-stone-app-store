@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Serilog;
 using Stone.AppStore.Application.Interfaces;
 using Stone.AppStore.Application.Models;
 using Stone.AppStore.Domain.Entities;
@@ -22,21 +23,48 @@ namespace Stone.AppStore.Application.Services
 
         public async Task<IEnumerable<AppModel>> GetApps()
         {
-            var appsEntity = await _appRepository.GetAppsAsync();
+            try
+            {
+                var appsEntity = await _appRepository.GetAppsAsync();
 
-            return _mapper.Map<IEnumerable<AppModel>>(appsEntity);
+                return _mapper.Map<IEnumerable<AppModel>>(appsEntity);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Fatal(ex.ToString());
+                throw ex;
+            }
+            
         }
 
         public async Task Add(AppModel appModel)
         {
-            var appEntity = _mapper.Map<App>(appModel);
-            await _appRepository.CreateAsync(appEntity);
+            try
+            {
+                var appEntity = _mapper.Map<App>(appModel);
+                await _appRepository.CreateAsync(appEntity);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Fatal(ex.ToString());
+                throw ex;
+            }
+
         }
 
         public async Task<AppModel> GetById(Guid id)
         {
-            var appEntity = await _appRepository.GetByIdAsync(id);
-            return _mapper.Map<AppModel>(appEntity);
+            try
+            {
+                var appEntity = await _appRepository.GetByIdAsync(id);
+                return _mapper.Map<AppModel>(appEntity);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Fatal(ex.ToString());
+                throw ex;
+            }
+
         }
     }
 }

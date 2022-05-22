@@ -28,7 +28,7 @@ namespace Stone.AppStore.Infraestructure.Identity
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<bool> RegisterUser(User user)
+        public async Task<IdentityResult> RegisterUser(User user)
         {
             var result = await _userManager.CreateAsync(user, user.Password);
 
@@ -36,7 +36,7 @@ namespace Stone.AppStore.Infraestructure.Identity
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
             }
-            return result.Succeeded;
+            return result;
         }
     }
 }

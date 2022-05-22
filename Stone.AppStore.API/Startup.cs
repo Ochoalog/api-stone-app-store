@@ -19,6 +19,8 @@ namespace Stone.AppStore.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
             var serviceClientSettingsConfig = Configuration.GetSection("RabbitMq");
             services.Configure<RabbitMqConfiguration>(serviceClientSettingsConfig);
 
