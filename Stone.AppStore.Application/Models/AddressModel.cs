@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Stone.AppStore.Application.Models
+﻿namespace Stone.AppStore.Application.Models
 {
     public class AddressModel
     {
