@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace Stone.AppStore.IoC
 {
@@ -21,6 +23,14 @@ namespace Stone.AppStore.IoC
                         Url = new Uri("https://www.linkedin.com/in/vitor-ochoa00010/")
                     }
                 });
+
+                c.SwaggerDoc("xmlFile", new OpenApiInfo());
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = "Stone.AppStore.API.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath, true);
+                c.OrderActionsBy((apiDesc) => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{apiDesc.HttpMethod}");
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {

@@ -46,8 +46,8 @@ namespace Stone.AppStore.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <response code="200">Returned if the order was updated (paid)</response>
-        /// <response code="400">Returned if the order could not be found with the provided id</response>
+        /// <response code="200">Returned if the app returned with success</response>
+        /// <response code="400">Returned if the app could not be found with the provided id</response>
         [HttpGet("{id:guid}", Name = "GetApp")]
         public async Task<ActionResult<AppModel>> Get(Guid id)
         {
@@ -60,10 +60,12 @@ namespace Stone.AppStore.API.Controllers
         }
 
         /// <summary>
-        /// 
+        ///     Action to create one App
         /// </summary>
         /// <param name="appModel"></param>
         /// <returns></returns>
+        /// <response code="200">Returned if the app was created with success</response>
+        /// <response code="400">Returned if the app could not be found with the provided id</response>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] AppModel appModel)
         {

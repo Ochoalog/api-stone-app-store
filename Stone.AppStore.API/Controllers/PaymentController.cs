@@ -31,7 +31,7 @@ namespace Stone.AppStore.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Payment>> Post([FromBody] PaymentCommand paymentCommand)
+        public async Task<ActionResult<Payment>> Post(PaymentCommand paymentCommand)
         {
             try
             {

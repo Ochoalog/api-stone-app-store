@@ -1,4 +1,5 @@
-﻿using Stone.AppStore.Domain.Enum;
+﻿using AutoMapper.Configuration.Annotations;
+using Stone.AppStore.Domain.Enum;
 using Stone.AppStore.Domain.Enums;
 using System;
 
@@ -10,14 +11,14 @@ namespace Stone.AppStore.Application.Models
 
         public Guid UserId { get; set; }
 
-        public Guid CreditCardId { get; set; }
-
         public CreditCardModel CreditCard { get; set; }
 
         public PaymentMethodEnum PaymentMethod { get; set; }
 
+        [Ignore]
         public ResultConfirmationEnum ResultConfirmation { get; set; }
 
+        [Ignore]
         public string Message { get; set; }
     }
 }

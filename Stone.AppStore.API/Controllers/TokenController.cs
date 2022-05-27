@@ -28,6 +28,11 @@ namespace Stone.AppStore.API.Controllers
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
+        /// <summary>
+        /// Action to Create one User
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromBody] UserModel userInfo)
         {          
@@ -43,6 +48,32 @@ namespace Stone.AppStore.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Action to return id of user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpGet("{email}", Name = "GetUserId")]
+        [Authorize]
+        public async Task<ActionResult> Get(string email)
+        {
+            var result = await _authentication.GetUserIdByEmail(email);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Action to Login with user already registered
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] string email, string password)

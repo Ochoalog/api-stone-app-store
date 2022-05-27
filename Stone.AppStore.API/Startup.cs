@@ -49,6 +49,11 @@ namespace Stone.AppStore.API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors(a => a.WithOrigins("*")
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
